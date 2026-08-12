@@ -1,6 +1,7 @@
 package com.proyecto2.gestion_pedidos.core.entity;
 
 
+import com.proyecto2.gestion_pedidos.core.entity.enums.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,6 +19,6 @@ public class Order {
     private Long customerId;
     private LocalDateTime orderDate;
     private OrderStatus status;
-    private BigDecimal totalAmoung;
+    private BigDecimal totalAmount;
 }
 

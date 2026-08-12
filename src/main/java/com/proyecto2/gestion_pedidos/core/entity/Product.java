@@ -16,6 +16,7 @@ public class Product {
     private Long categoryId;
     private String sku;
     private String name;
-    private BigDecimal prpice;
+    private BigDecimal price;
     private Integer stockQuantity;
+    private Boolean active;
 }
