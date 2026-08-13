@@ -9,7 +9,9 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class CategoryRequest {
+
     @NotBlank(message = "El nombre es obligatorio")
     private String name;
+
     private String description;
 }

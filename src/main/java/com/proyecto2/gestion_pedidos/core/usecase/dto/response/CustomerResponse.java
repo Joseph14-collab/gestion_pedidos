@@ -7,10 +7,12 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class CategoryResponse {
+public class CustomerResponse {
 
     private Long id;
-    private String name;
-    private String description;
+    private String documentNumber;
+    private String fullName;
+    private String email;
+    private String phoneNumber;
     private Boolean active;
 }

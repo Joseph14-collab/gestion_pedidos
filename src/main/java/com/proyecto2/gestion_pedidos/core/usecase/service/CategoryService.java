@@ -75,7 +75,7 @@ public class CategoryService implements RegisterCategoryCase, GetCategoryCase, G
                 .name(existingCategory.getName())
                 .description(existingCategory.getDescription())
                 .active(true).build();
-        categoryRepositoryPort.delete(deletedCategory);
+        categoryRepositoryPort.update(deletedCategory);
         return true;
     }
 }

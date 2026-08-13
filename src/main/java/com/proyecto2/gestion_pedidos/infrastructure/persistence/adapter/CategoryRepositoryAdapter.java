@@ -34,8 +34,7 @@ public class CategoryRepositoryAdapter implements CategoryRepositoryPort {
 
     @Override
     public List<Category> findByActive(boolean active){
-        return categoryRepository.findByActive(active).stream()
-                .map(this::toDomain).toList();
+        return categoryRepository.findByActive(active).stream().map(this::toDomain).toList();
     }
 
     @Override
