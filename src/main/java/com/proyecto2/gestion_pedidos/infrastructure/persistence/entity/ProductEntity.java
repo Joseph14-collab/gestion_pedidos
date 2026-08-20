@@ -19,15 +19,21 @@ public class ProductEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "category_id")
+    @Column(name = "category_id", nullable = false)
     private Long categoryId;
 
+    @Column(nullable = false, unique = true, length = 50)
     private String sku;
+
+    @Column(nullable = false, length = 150)
     private String name;
+
+    @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal price;
 
-    @Column(name = "stock_quantity")
+    @Column(name = "stock_quantity", nullable = false)
     private Integer stockQuantity;
 
+    @Column(nullable = false)
     private Boolean active;
 }

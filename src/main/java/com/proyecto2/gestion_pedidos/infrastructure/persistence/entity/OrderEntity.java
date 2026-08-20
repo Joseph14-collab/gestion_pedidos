@@ -22,16 +22,17 @@ public class OrderEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "customer_id")
+    @Column(name = "customer_id", nullable = false)
     private Long customerId;
 
-    @Column(name = "order_date")
+    @Column(name = "order_date", nullable = false, updatable = false)
     private LocalDateTime orderDate;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 30)
     private OrderStatus status;
 
-    @Column(name = "total_amount")
+    @Column(name = "total_amount", nullable = false, precision = 10, scale = 2)
     private BigDecimal totalAmount;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)

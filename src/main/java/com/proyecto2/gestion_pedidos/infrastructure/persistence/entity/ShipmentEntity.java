@@ -20,20 +20,23 @@ public class ShipmentEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "order_id")
-    private Long orderId;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id", nullable = false, unique = true)
+    private OrderEntity order;
 
-    @Column(name = "tracking_number")
+    @Column(name = "tracking_number", unique = true, length = 100)
     private String trackingNumber;
 
-    @Column(name = "shipping_address")
+    @Column(name = "shipping_address", nullable = false)
     private String shippingAddress;
 
+    @Column(nullable = false, length = 100)
     private String carrier;
 
     @Column(name = "estimated_delivery_date")
     private LocalDate estimatedDeliveryDate;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 30)
     private ShipmentStatus status;
 }

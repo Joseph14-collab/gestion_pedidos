@@ -17,16 +17,18 @@ public class CustomerEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "document_number")
+    @Column(name = "document_number", nullable = false, unique = true, length = 20)
     private String documentNumber;
 
-    @Column(name = "full_name")
+    @Column(name = "full_name", nullable = false, length = 150)
     private String fullName;
 
+    @Column(nullable = false, unique = true, length = 100)
     private String email;
 
-    @Column(name = "phone_number")
+    @Column(name = "phone_number", length = 20)
     private String phoneNumber;
 
+    @Column(nullable = false)
     private Boolean active;
 }

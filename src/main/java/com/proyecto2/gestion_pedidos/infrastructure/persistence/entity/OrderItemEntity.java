@@ -23,15 +23,16 @@ public class OrderItemEntity {
     @JoinColumn(name = "order_id", nullable = false)
     private OrderEntity order;
 
-    @Column(name = "product_id")
+    @Column(name = "product_id", nullable = false)
     private Long productId;
 
+    @Column(nullable = false)
     private Integer quantity;
 
-    @Column(name = "unit_price")
+    @Column(name = "unit_price", nullable = false, precision = 10, scale = 2)
     private BigDecimal unitPrice;
 
-    @Column(name = "sub_total")
+    @Column(name = "sub_total", nullable = false, precision = 10, scale = 2)
     private BigDecimal subTotal;
 
 }
