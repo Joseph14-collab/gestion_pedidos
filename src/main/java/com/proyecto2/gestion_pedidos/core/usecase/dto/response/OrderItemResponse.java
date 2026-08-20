@@ -1,17 +1,16 @@
-package com.proyecto2.gestion_pedidos.core.entity;
+package com.proyecto2.gestion_pedidos.core.usecase.dto.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 import java.math.BigDecimal;
 
 @Getter
-@Builder
+@Setter
+@NoArgsConstructor
 @AllArgsConstructor
-@ToString
-public class OrderItem {
+@Builder
+public class OrderItemResponse {
+
     private Long id;
     private Long orderId;
     private Long productId;

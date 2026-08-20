@@ -3,6 +3,7 @@ package com.proyecto2.gestion_pedidos.infrastructure.controller;
 import com.proyecto2.gestion_pedidos.core.entity.Order;
 import com.proyecto2.gestion_pedidos.core.entity.enums.OrderStatus;
 import com.proyecto2.gestion_pedidos.core.usecase.dto.mapper.OrderMapper;
+import com.proyecto2.gestion_pedidos.core.usecase.dto.request.OrderItemRequest;
 import com.proyecto2.gestion_pedidos.core.usecase.dto.request.OrderRequest;
 import com.proyecto2.gestion_pedidos.core.usecase.dto.response.OrderResponse;
 import com.proyecto2.gestion_pedidos.core.usecase.port.in.order.*;
@@ -25,6 +26,8 @@ public class OrderController {
     private final UpdateOrderStatusCase updateOrderStatusCase;
     private final CancelOrderCase cancelOrderCase;
     private final OrderMapper orderMapper;
+
+    private final AddOrderItemCase addOrderItemCase;
 
     @PostMapping
     public ResponseEntity<OrderResponse> createOrder(@Valid @RequestBody OrderRequest request){
@@ -59,11 +62,17 @@ public class OrderController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<OrderResponse> cancerOder(@PathVariable Long id){
+    public ResponseEntity<OrderResponse> cancelOder(@PathVariable Long id){
         cancelOrderCase.cancelOrder(id);
         return ResponseEntity.noContent().build();
     }
 
+    //OrderItem
+    @PostMapping("/{orderId}/items")
+    public ResponseEntity<OrderResponse> addItem(@PathVariable Long orderId, @Valid @RequestBody OrderItemRequest request) {
+        Order updatedOrder = addOrderItemCase.addOrderItem(orderId, request.getProductId(), request.getQuantity());
+        return ResponseEntity.ok(orderMapper.toResponse(updatedOrder));
+    }
 
 
 }

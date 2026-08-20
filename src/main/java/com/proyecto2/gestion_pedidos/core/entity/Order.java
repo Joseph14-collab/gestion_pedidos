@@ -9,6 +9,7 @@ import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Builder
@@ -20,5 +21,6 @@ public class Order {
     private LocalDateTime orderDate;
     private OrderStatus status;
     private BigDecimal totalAmount;
+    private List<OrderItem> items;
 }
 

@@ -1,20 +1,25 @@
 package com.proyecto2.gestion_pedidos.core.usecase.service;
 
 import com.proyecto2.gestion_pedidos.core.entity.Order;
+import com.proyecto2.gestion_pedidos.core.entity.OrderItem;
+import com.proyecto2.gestion_pedidos.core.entity.Product;
 import com.proyecto2.gestion_pedidos.core.entity.enums.OrderStatus;
 import com.proyecto2.gestion_pedidos.core.usecase.port.in.order.*;
 import com.proyecto2.gestion_pedidos.core.usecase.port.out.order.OrderRepositoryPort;
+import com.proyecto2.gestion_pedidos.core.usecase.port.out.product.ProductRepositoryPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class OrderService implements RegisterOrderCase, GetOrderCase, GetAllOrderCase, UpdateOrderStatusCase, CancelOrderCase {
+public class OrderService implements RegisterOrderCase, GetOrderCase, GetAllOrderCase, UpdateOrderStatusCase, CancelOrderCase, AddOrderItemCase {
     private final OrderRepositoryPort orderRepositoryPort;
+    private final ProductRepositoryPort productRepositoryPort;
 
     @Override
     public Order registerOrder(Order request){
@@ -22,7 +27,8 @@ public class OrderService implements RegisterOrderCase, GetOrderCase, GetAllOrde
                 .customerId(request.getCustomerId())
                 .orderDate(LocalDateTime.now())
                 .status(OrderStatus.PENDING)
-                .totalAmount(BigDecimal.ZERO).build();
+                .totalAmount(BigDecimal.ZERO)
+                .items(new ArrayList<>()).build();
         return orderRepositoryPort.save(newOrder);
     }
 
@@ -50,7 +56,9 @@ public class OrderService implements RegisterOrderCase, GetOrderCase, GetAllOrde
                 .customerId(existingOrder.getCustomerId())
                 .orderDate(existingOrder.getOrderDate())
                 .status(newStatus)
-                .totalAmount(existingOrder.getTotalAmount()).build();
+                .totalAmount(existingOrder.getTotalAmount())
+                .items(existingOrder.getItems())
+                .build();
         return orderRepositoryPort.save(updateOrder);
     }
 
@@ -59,5 +67,34 @@ public class OrderService implements RegisterOrderCase, GetOrderCase, GetAllOrde
         return updateOrderStatus(id, OrderStatus.CANCELLED);
     }
 
+    @Override
+    public Order addOrderItem(Long orderId, Long productId, Integer quantity) {
+        Order order = orderRepositoryPort.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Orden no encontrada"));
 
+        Product product = productRepositoryPort.findById(productId)
+                .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
+
+        BigDecimal subTotal = product.getPrice().multiply(new BigDecimal(quantity));
+        OrderItem newItem = OrderItem.builder()
+                .orderId(order.getId())
+                .productId(product.getId())
+                .quantity(quantity)
+                .unitPrice(product.getPrice())
+                .subTotal(subTotal)
+                .build();
+
+        List<OrderItem> items = new ArrayList<>(order.getItems());
+        items.add(newItem);
+
+        Order updatedOrder = Order.builder()
+                .id(order.getId())
+                .customerId(order.getCustomerId())
+                .orderDate(order.getOrderDate())
+                .status(order.getStatus())
+                .items(items)
+                .totalAmount(order.getTotalAmount().add(subTotal))
+                .build();
+        return orderRepositoryPort.save(updatedOrder);
+    }
 }

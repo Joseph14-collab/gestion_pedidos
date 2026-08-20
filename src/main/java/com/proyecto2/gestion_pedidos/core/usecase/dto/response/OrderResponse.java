@@ -1,10 +1,12 @@
 package com.proyecto2.gestion_pedidos.core.usecase.dto.response;
 
+import com.proyecto2.gestion_pedidos.core.entity.OrderItem;
 import com.proyecto2.gestion_pedidos.core.entity.enums.OrderStatus;
 import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -18,4 +20,5 @@ public class OrderResponse {
     private LocalDateTime orderDate;
     private OrderStatus status;
     private BigDecimal totalAmount;
+    private List<OrderItemResponse> items;
 }
