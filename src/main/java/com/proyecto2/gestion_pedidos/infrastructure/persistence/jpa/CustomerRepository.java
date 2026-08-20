@@ -1,6 +1,5 @@
 package com.proyecto2.gestion_pedidos.infrastructure.persistence.jpa;
 
-import com.proyecto2.gestion_pedidos.infrastructure.persistence.entity.CategoryEntity;
 import com.proyecto2.gestion_pedidos.infrastructure.persistence.entity.CustomerEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
